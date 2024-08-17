@@ -7,7 +7,16 @@ import Post from './components/Post'
 function App() {
   
 
-  return  <Post/>;
+  return  (
+    <main>
+      <Post author="Satria" body="Nice React-ion"/>
+      <Post author="Ibnu Pamungkas" body="Why you cant react"/>
+
+
+
+    </main>
+  
+  );
 }
 
 export default App
