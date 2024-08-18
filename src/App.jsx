@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Post from './components/Post'
+import PostList from './components/PostList';
 
 
 // Many JavaScript and React projects follow the Airbnb JavaScript Style Guide, 
@@ -8,13 +8,12 @@ function App() {
   
 
   return  (
-    <main>
-      <Post author="Satria" body="Nice React-ion"/>
-      <Post author="Ibnu Pamungkas" body="Why you cant react"/>
-
-
-
-    </main>
+    <>
+      <main>
+        <PostList/>
+      </main>
+    </>
+   
   
   );
 }
