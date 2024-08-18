@@ -6,22 +6,14 @@ import Modal from './Modal';
 
 
 function PostList({isPosting, onStopPosting}) {
-    const [enteredBodyText, setEnteredBodyText] = useState('');
-    const [enteredAuthorText, setEnteredAuthorText] = useState('');
+    const [posts, setPosts] = useState([]);
 
-
-    // useState() contain an array with 2 value;
-    // the first one is value of the current state
-    // the second one is function to update the state
-
-    
-    function changeBodyHandler(event) {
-        setEnteredBodyText(event.target.value);
-
-    }
-
-    function changeAuthorHandler(event) {
-        setEnteredAuthorText(event.target.value);
+    function addPostHandler(postData){
+        // setPosts([postData, ...posts]);
+        setPosts((existingPosts) => [postData, ...existingPosts]);
+        //if the new state depend on old state use this function form above
+        //for updating state. you get old state automatically, you can use it
+        //and you should return the new state then as a value
 
     }
 
@@ -41,8 +33,8 @@ function PostList({isPosting, onStopPosting}) {
         modalContent = 
         <Modal onClose={onStopPosting}>
             <NewPost 
-                onBodyChange={changeBodyHandler} 
-                onAuthorChange={changeAuthorHandler}
+                onCancel={onStopPosting}
+                onAddPost={addPostHandler} 
             />
         </Modal>
     }
@@ -54,8 +46,7 @@ function PostList({isPosting, onStopPosting}) {
          <>  
         {modalContent}
         <ul className={styles.posts}>
-            <Post author={enteredAuthorText} body={enteredBodyText}/>
-            <Post author="Ibnu Pamungkas" body="Why you cant react"/>
+            {posts.map((post) => <Post key={post.body} author={post.author} body={post.body}/> )}
         </ul>
         </>
     );
