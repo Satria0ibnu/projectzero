@@ -1,11 +1,10 @@
 // react has many built in function start with use.
 // that is considered react hooks (we can build our own react hooks btw)
-import { useState } from 'react'
 import styles from './NewPost.module.css'
 import Modal from '../components/Modal'
-import { Link } from 'react-router-dom';
+import { Link, Form, redirect} from 'react-router-dom';
 
-function NewPost({ onAddPost}) {
+function NewPost() {
     // useState() contain an array with 2 value;
     // the first one is value of the current state
     // the second one is function to update the state
@@ -13,57 +12,41 @@ function NewPost({ onAddPost}) {
     //props.onBodyChange is declared in PostList.jsx
     //we can name up that onBodyChange
 
-    const [enteredBodyText, setEnteredBodyText] = useState('');
-    const [enteredAuthorText, setEnteredAuthorText] = useState('');
-
 
     // useState() contain an array with 2 value;
     // the first one is value of the current state
     // the second one is function to update the state
 
-    
-    function changeBodyHandler(event) {
-        setEnteredBodyText(event.target.value);
 
-    }
-
-    function changeAuthorHandler(event) {
-        setEnteredAuthorText(event.target.value);
-
-    }
-
-    function submitHandler(event) {
       // cause this is react course and we dont have any server side code
       // we dont want the request from form its send by http request
-      event.preventDefault();
-      const postData = {
-        author : enteredAuthorText,
-        body : enteredBodyText
-      };
-      onAddPost(postData);
-      onCancel();
 
-    }
 
+  // because we are now using react router. we can have cleaner code
+  // add name attribute to the field
+  // import Form from react router dom
+  // by changing form to Form. react router handle the form submission
+  // and it will prevent browser by default from sending a request
+  // but still gather the input data
   return (
     <>
     <Modal>    
-      <form className={styles.form} onSubmit={submitHandler}>
+      <Form method="post"className={styles.form} >
         <p>
           <label htmlFor="body">Text</label>
-          <textarea id="body" required rows={3} onChange={changeBodyHandler}/>
+          <textarea id="body" name="body" required rows={3} />
           
         </p>
         <p>
           <label htmlFor="name">Your name</label>
-          <input type="text" id="name" required onChange={changeAuthorHandler}/>
+          <input type="text" id="name" name="author" required />
         </p>
         <p className={styles.actions}> 
-          <Link to=".." type="button">Cancel</Link>
+          <Link to=".." type="button" >Cancel</Link>
           <button>submit</button>
         </p>
 
-      </form>
+      </Form>
     </Modal>
     </>
     );
@@ -71,3 +54,18 @@ function NewPost({ onAddPost}) {
 }
 
 export default NewPost;
+
+export async function action({request}) {
+  const formData = await request.formData();
+  const postData = Object.fromEntries(formData); // {body: '..', author : '..'  }
+  await fetch('http://localhost:8080/posts', {
+    method: 'POST',
+    body : JSON.stringify(postData),
+    headers : { 
+        'Content-Type' : 'application/json'
+    }
+  });
+
+  // redirect to make react router load a different route which is '/'
+  return redirect('/');
+}

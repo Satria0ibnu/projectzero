@@ -14,25 +14,17 @@ function PostList({}) {
     // the 2nd parameter [] is define the time when it executes
     // by use empty array it tells, this component executed only once at first
 
-    function addPostHandler(postData){
         // we send a request to that url and specifically targeting /posts
         // by default fetch send GET request but we want to use POST here
-        fetch('http://localhost:8080/posts', {
-            method: 'POST',
-            body : JSON.stringify(postData),
-            headers : { 
-                'Content-Type' : 'application/json'
-            }
-        });
+        
         
 
         // setPosts([postData, ...posts]);
-        setPosts((existingPosts) => [postData, ...existingPosts]);
+        
         //if the new state depend on old state use this function form above
         //for updating state. you get old state automatically, you can use it
         //and you should return the new state then as a value
 
-    }
 
     //another approach to use the state  modalIsVisible after change
 

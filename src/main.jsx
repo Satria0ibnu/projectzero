@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import App, { loader as postLoader} from './routes/Posts.jsx'
 import './index.css'
-import NewPost from './routes/NewPost.jsx'
+import NewPost, { action as newPostAction} from './routes/NewPost.jsx'
 import RootLayout from './routes/RootLayout.jsx'
 
 
@@ -20,6 +20,10 @@ import RootLayout from './routes/RootLayout.jsx'
 //react router higher version give us more convinient way to fetch data
 //by using loader key
 //because we dont want to mess the main js. the function is in the component
+
+//we can add action by adding action key
+//the function of action value will be triggered when
+//the form is submitted in that form
 const router = createBrowserRouter([
   { path : '/', 
     element : <RootLayout/>, 
@@ -27,7 +31,10 @@ const router = createBrowserRouter([
       { path : '/', 
         element : <App/>, 
         loader : postLoader,
-        children : [{ path : '/create-post', element : <NewPost/>}]},
+        children : [
+          { path : '/create-post', 
+            element : <NewPost/>,
+            action  : newPostAction }]}
       
   ]}
   
