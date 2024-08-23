@@ -20,7 +20,7 @@ function PostList({}) {
         
 
         // setPosts([postData, ...posts]);
-        
+
         //if the new state depend on old state use this function form above
         //for updating state. you get old state automatically, you can use it
         //and you should return the new state then as a value
@@ -45,7 +45,8 @@ function PostList({}) {
         {posts.length > 0 ? 
             <ul className={styles.posts}>
                 {posts.map((post) => 
-                    <Post key={post.body} 
+                    <Post key={post.id} 
+                    id={post.id}
                     author={post.author} 
                     body={post.body}/> )}
             </ul>

@@ -5,6 +5,7 @@ import App, { loader as postLoader} from './routes/Posts.jsx'
 import './index.css'
 import NewPost, { action as newPostAction} from './routes/NewPost.jsx'
 import RootLayout from './routes/RootLayout.jsx'
+import PostDetails, {loader as postDetailsLoader} from './routes/PostDetails.jsx'
 
 
 //createBrowserRouter takes array as an argument (similar like children value)
@@ -34,7 +35,12 @@ const router = createBrowserRouter([
         children : [
           { path : '/create-post', 
             element : <NewPost/>,
-            action  : newPostAction }]}
+            action  : newPostAction 
+          },
+          { path : '/:postId',
+            element : <PostDetails/>,
+            loader : postDetailsLoader
+          }]}
       
   ]}
   
