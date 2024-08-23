@@ -1,11 +1,9 @@
 import Post from './Post'
 import styles from './PostList.module.css'
-import NewPost from './NewPost';
 import { useState, useEffect } from 'react';
-import Modal from './Modal';
 
 
-function PostList({isPosting, onStopPosting}) {
+function PostList({}) {
     const [isFetching, setIsFetching] = useState(false);
 
     //updating the state causes component function got executed again
@@ -61,24 +59,12 @@ function PostList({isPosting, onStopPosting}) {
     //         />
     //     </Modal> : null}
 
-    let modalContent;
-
-    if (isPosting) {
-        modalContent = 
-        <Modal onClose={onStopPosting}>
-            <NewPost 
-                onCancel={onStopPosting}
-                onAddPost={addPostHandler} 
-            />
-        </Modal>
-    }
 
 
     return(
         //empty element or fragment <> to make it work with more content
         //we pass the props to NewPost
          <>  
-        {modalContent}
         {!isFetching && posts.length > 0 ? 
             <ul className={styles.posts}>
                 {posts.map((post) => 

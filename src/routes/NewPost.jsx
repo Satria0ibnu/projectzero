@@ -2,8 +2,10 @@
 // that is considered react hooks (we can build our own react hooks btw)
 import { useState } from 'react'
 import styles from './NewPost.module.css'
+import Modal from '../components/Modal'
+import { Link } from 'react-router-dom';
 
-function NewPost({onCancel, onAddPost}) {
+function NewPost({ onAddPost}) {
     // useState() contain an array with 2 value;
     // the first one is value of the current state
     // the second one is function to update the state
@@ -44,24 +46,27 @@ function NewPost({onCancel, onAddPost}) {
     }
 
   return (
-    <form className={styles.form} onSubmit={submitHandler}>
-      <p>
-        <label htmlFor="body">Text</label>
-        <textarea id="body" required rows={3} onChange={changeBodyHandler}/>
-        
-        
-      </p>
-      <p>
-        <label htmlFor="name">Your name</label>
-        <input type="text" id="name" required onChange={changeAuthorHandler}/>
-      </p>
-      <p className={styles.actions}> 
-        <button type="button"onClick={onCancel}>Cancel</button>
-        <button>submit</button>
-      </p>
+    <>
+    <Modal>    
+      <form className={styles.form} onSubmit={submitHandler}>
+        <p>
+          <label htmlFor="body">Text</label>
+          <textarea id="body" required rows={3} onChange={changeBodyHandler}/>
+          
+        </p>
+        <p>
+          <label htmlFor="name">Your name</label>
+          <input type="text" id="name" required onChange={changeAuthorHandler}/>
+        </p>
+        <p className={styles.actions}> 
+          <Link to=".." type="button">Cancel</Link>
+          <button>submit</button>
+        </p>
 
-    </form>
-  );
+      </form>
+    </Modal>
+    </>
+    );
   //by default button will be set to type submit
 }
 
