@@ -1,14 +1,42 @@
 import Post from './Post'
 import styles from './PostList.module.css'
 import NewPost from './NewPost';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from './Modal';
 
 
 function PostList({isPosting, onStopPosting}) {
+    //updating the state causes component function got executed again
+
+     // we send get request  then unpack data from response
+    
+    //useEffect prevent the infinite loop of rendering 
+    // the 2nd parameter [] is define the time when it executes
+    // by use empty array it tells, this component executed only once at first
+    useEffect(() => { 
+        async function fetchPosts() {
+            const response = await fetch('http://localhost:8080/posts');
+            const resData = await response.json();
+            setPosts(resData.posts)
+
+        }
+        fetchPosts();
+        }, []);
+
     const [posts, setPosts] = useState([]);
 
     function addPostHandler(postData){
+        // we send a request to that url and specifically targeting /posts
+        // by default fetch send GET request but we want to use POST here
+        fetch('http://localhost:8080/posts', {
+            method: 'POST',
+            body : JSON.stringify(postData),
+            headers : { 
+                'Content-Type' : 'application/json'
+            }
+        });
+        
+
         // setPosts([postData, ...posts]);
         setPosts((existingPosts) => [postData, ...existingPosts]);
         //if the new state depend on old state use this function form above
