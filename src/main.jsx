@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import App from './routes/Posts.jsx'
+import App, { loader as postLoader} from './routes/Posts.jsx'
 import './index.css'
 import NewPost from './routes/NewPost.jsx'
 import RootLayout from './routes/RootLayout.jsx'
@@ -16,12 +16,17 @@ import RootLayout from './routes/RootLayout.jsx'
 
 //in here we create the one route with many child 
 // and it act as an root layout for all child layout
+
+//react router higher version give us more convinient way to fetch data
+//by using loader key
+//because we dont want to mess the main js. the function is in the component
 const router = createBrowserRouter([
   { path : '/', 
     element : <RootLayout/>, 
     children : [
       { path : '/', 
         element : <App/>, 
+        loader : postLoader,
         children : [{ path : '/create-post', element : <NewPost/>}]},
       
   ]}

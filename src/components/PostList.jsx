@@ -1,11 +1,11 @@
 import Post from './Post'
 import styles from './PostList.module.css'
-import { useState, useEffect } from 'react';
+import { useLoaderData } from 'react-router-dom';
 
 
 function PostList({}) {
-    const [isFetching, setIsFetching] = useState(false);
-
+    //useLoaderData() is to get the return result of the function in loader value
+    const posts = useLoaderData();
     //updating the state causes component function got executed again
 
      // we send get request  then unpack data from response
@@ -13,21 +13,6 @@ function PostList({}) {
     //useEffect prevent the infinite loop of rendering 
     // the 2nd parameter [] is define the time when it executes
     // by use empty array it tells, this component executed only once at first
-    useEffect(() => { 
-        async function fetchPosts() {
-            setIsFetching(true);
-            const response = await fetch('http://localhost:8080/posts');
-            const resData = await response.json();
-            if (!response.ok) {
-                throw new Error('Failed to fetch posts');
-            }
-            setPosts(resData.posts)
-            setIsFetching(false);
-        }
-        fetchPosts();
-        }, []);
-
-    const [posts, setPosts] = useState([]);
 
     function addPostHandler(postData){
         // we send a request to that url and specifically targeting /posts
@@ -65,7 +50,7 @@ function PostList({}) {
         //empty element or fragment <> to make it work with more content
         //we pass the props to NewPost
          <>  
-        {!isFetching && posts.length > 0 ? 
+        {posts.length > 0 ? 
             <ul className={styles.posts}>
                 {posts.map((post) => 
                     <Post key={post.body} 
@@ -75,19 +60,13 @@ function PostList({}) {
         : null}
         
         
-        {!isFetching && posts.length === 0 ? 
+        {posts.length === 0 ? 
             <div style={{textAlign: 'center', color: 'white' }}>
                 <h2>There are no posts yet.</h2>
                 <p>Start adding some!</p>
             </div>
         : null}
 
-        {isFetching && posts.length === 0 ? 
-            <div style={{textAlign: 'center', color: 'white' }}>
-                <h2>Loading Posts...</h2>
-                <p>Please wait</p>
-            </div>
-        : null}
         </>
     );
 }
